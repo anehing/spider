@@ -20,17 +20,23 @@ function download(url, callback) {
 
 var cheerio = require("cheerio");
 
-var url = "http://www.echojs.com/";
+var url = "http://www.lagou.com/gongsi/0-0-0?pn=1";
 
 download(url, function(data) {
   if (data) {
     // console.log(data);
     var $ = cheerio.load(data);
-    $("article").each(function(i, e) {
-      var link = $(e).find("h2>a");
-      var poster = $(e).find("username").text();
-      console.log(poster+": ["+link.html()+"]("+link.attr("href")+")");
-    });
+    // $(".hc_list").each(function(i, e) {
+    //   // var link = $(e).find("h2>a");
+    //   // var poster = $(e).find("username").text();
+    //   // console.log(poster+": ["+link.html()+"]("+link.attr("href")+")");
+    //   console.log
+    // });
+	$(".hc_list > li").each(function(i,e){
+		var first_a = $(e).find("a");
+		var company = $(first_a).find("h3").text();
+		console.log(company+": ["+company+"]("+first_a.attr("href")+")");;
+	});
   }
 });
 
