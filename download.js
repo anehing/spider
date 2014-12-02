@@ -16,7 +16,7 @@ function download(url, callback) {
   });
 }
 
-var url = "http://www.dailymail.co.uk/news/article-2297585/Wild-squirrels-pose-charming-pictures-photographer-hides-nuts-miniature-props.html"
+var url = "http://www.lagou.com/gongsi"
 
 download(url, function(data) {
   if (data) {
