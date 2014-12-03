@@ -30,7 +30,7 @@ var spider = function(url,j){
 			$(".hc_list > li").each(function(i,e){
 				var first = $(e).find("a");
 				//xpath.push(first.attr("href"));
-				fs.appendFile("./url"+j+".txt", first.attr("href")+'\n', function (err) {
+				fs.appendFile("./url_"+j+"_.txt", first.attr("href")+'\n', function (err) {
   					if (err) {
 						console.log('========error======');
   					}
