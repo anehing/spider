@@ -1,4 +1,6 @@
 var http = require("http");
+var cheerio = require("cheerio");
+var fs		= require('fs');
 
 // Utility function that downloads a URL and invokes
 // callback with the data.
@@ -16,13 +18,6 @@ function download(url, callback) {
   });
 }
 
-var url = "http://www.lagou.com/gongsi"
 
-download(url, function(data) {
-  if (data) {
-    console.log(data);
-  }
-  else console.log("error");  
-});
 
 
