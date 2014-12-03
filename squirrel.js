@@ -1,37 +1,22 @@
-var http = require("http");
-
-// Utility function that downloads a URL and invokes
-// callback with the data.
-function download(url, callback) {
-  http.get(url, function(res) {
-    var data = "";
-    res.on('data', function (chunk) {
-      data += chunk;
-    });
-    res.on("end", function() {
-      callback(data);
-    });
-  }).on("error", function() {
-    callback(null);
-  });
-}
-
-var cheerio = require("cheerio");
-
-var url = "http://www.dailymail.co.uk/news/article-2297585/Wild-squirrels-pose-charming-pictures-photographer-hides-nuts-miniature-props.html"
-
-download(url, function(data) {
-  if (data) {
-    //console.log(data);
-
-    var $ = cheerio.load(data);
-    $("div.artSplitter > img.blkBorder").each(function(i, e) {
-        console.log($(e).attr("src"));
-      });
-      
-    console.log("done");
-  }
-  else console.log("error");  
-});
-
-
+//spider(address+page);
+// var flag =true;
+// while(flag){
+// 	page++;
+// 	flag= (function(flag){ 
+// 	   return flag;
+// 	})(download(url+page, function(data) {
+// 		if(data){
+// 			var $ = cheerio.load(data);
+// 			if($(".noresult").length==1){
+// 				console.log('空');
+// 				return  false;
+// 			}
+// 			$(".hc_list > li").each(function(i,e){
+// 				var first = $(e).find("a");
+// 				xpath.push(first.attr("href"));
+// 				console.log(xpath);
+// 			});
+// 			 return true;
+// 		}
+// 	}));
+// }

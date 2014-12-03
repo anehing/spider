@@ -5,6 +5,8 @@ var xpath =[],
 	stage = [],
 	industry = [];
 var cheerio = require("cheerio");
+var fs		= require('fs');
+ 
 // Utility function that downloads a URL and invokes
 // callback with the data.
 function download(url, callback) {
@@ -14,16 +16,41 @@ function download(url, callback) {
       data += chunk;
     });
     res.on("end", function() {
-      callback(data);
+     callback(data);
     });
   }).on("error", function() {
-    callback(null);
+   	 callback(null);
   });
 }
-var url = "http://www.lagou.com/gongsi";
 
+var spider = function(url){
+	download(url,function(data){
+		console.log(url);
+		page++;
+		if(data){
+			var $ = cheerio.load(data);
+			$(".hc_list > li").each(function(i,e){
+				var first = $(e).find("a");
+				//xpath.push(first.attr("href"));
+				fs.appendFile('./url.txt', first.attr("href")+'\n', function (err) {
+  					if (err) {
+						console.log('========error======');
+  					}
+  						console.log('The "data to append" was appended to file!');
+					});
+				});
+			if($(".noresult").length==0){
+				process.nextTick(function(){spider(url.split("=")[0]+"="+page)})
+			}
+			//console.log(xpath);
+		}
+	});
+}	
+
+var address = "http://www.lagou.com/gongsi";
+var page =0;
 //获取地址
-download(url, function(data) {
+download(address, function(data) {
   if (data) {
     var $ = cheerio.load(data);
     $("#box_expectCity > dl").each(function(i,e){
@@ -49,26 +76,11 @@ download(url, function(data) {
   for(var i=0;i<city.length;i++){
 	 for(var j=0;j<stage.length;j++){
 		for(var m=0;m<industry.length;m++){
-		    var url ="http://www.lagou.com/gongsi/"+city[i]+"-"+stage[j]+"-"+industry[m];
-		    path.push(url);
+		    var url ="http://www.lagou.com/gongsi/"+city[i]+"-"+stage[j]+"-"+industry[m]+"?pn=";
+		    page++;
+			spider(url+page);
 		}
 	 }
-  }
-  for(var i=0;i<path.length-1;i++){
-	var url =path[i]+"?pn=";
-	var page = 0;
-	for(var j=0;j<3;j++){
-		page++;
-		download(url+page, function(data) {
-		  if (data) {
-		    var $ = cheerio.load(data);
-			$(".hc_list > li").each(function(i,e){
-				var first = $(e).find("a");
-				xpath.push(first.attr("href"));
-			});
-		  }
-		});
-	}
   }
 });
 
