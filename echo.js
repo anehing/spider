@@ -23,14 +23,14 @@ function download(url, callback) {
   });
 }
 
-var spider = function(url,i){
+var spider = function(url,j){
 	download(url,function(data){
 		if(data){
 			var $ = cheerio.load(data);
 			$(".hc_list > li").each(function(i,e){
 				var first = $(e).find("a");
 				//xpath.push(first.attr("href"));
-				fs.appendFile("./url"+"i"+".txt", first.attr("href")+'\n', function (err) {
+				fs.appendFile("./url"+j+".txt", first.attr("href")+'\n', function (err) {
   					if (err) {
 						console.log('========error======');
   					}
@@ -40,7 +40,7 @@ var spider = function(url,i){
 			if($(".noresult").length==0){
 				var _array=url.split('=');
 				var _page = parseInt(_array[1])+1;
-				process.nextTick(function(){spider(_array[0]+"="+_page,i)})
+				process.nextTick(function(){spider(_array[0]+"="+_page,j)})
 			}
 			//console.log(xpath);
 		}
@@ -72,11 +72,11 @@ download(address, function(data) {
 		}
 	});
   }
-  for(var i=0;i<1;i++){
-	 for(var j=0;j<1;j++){
-		for(var m=0;m<2;m++){
+  for(var i=0;i<city.length;i++){
+	 for(var j=0;j<stage.length;j++){
+		for(var m=0;m<industry.length;m++){
 		    var url ="http://www.lagou.com/gongsi/"+city[i]+"-"+stage[j]+"-"+industry[m]+"?pn=1";
-			spider(url,i);
+			spider(url,j);
 		}
 	 }
   }
