@@ -52,10 +52,7 @@ var spider =function (url,i) {
                 download(_uri,true,function(data){
                     if(data){
                         fs.writeFile( './logo/'+_pic, data, 'binary', function(err) {
-                            if (err) {
-                                console.log('image writing error:' + err.message);
-                                return null;
-                            }
+							if(err) throw err;
                         });
                     }
                 });
@@ -83,10 +80,7 @@ var spider =function (url,i) {
                 download(_logo_uri,true,function(data){
                     if(data){
                         fs.writeFile( './logo/'+_logo, data, 'binary', function(err) {
-                            if (err) {
-                                console.log('image writing error:' + err.message);
-                                return null;
-                            }
+							if(err) throw err;
                         });
                     }
                 });
@@ -111,10 +105,7 @@ var spider =function (url,i) {
     });
 }
 fs.readFile('url.txt', function (err, data) {
-    if (err) {
-        console.log("==========error==========");
-        return null;
-    }
+    if(err) throw err;
     var urls = data.toString().trim().split('\n');
     for(var i=0;i<urls.length;i++){
         //_companies=
