@@ -22,15 +22,6 @@ var download = function (url,file, callback) {
         callback(null);
     });
 }
-var company =function(data){
-
-    fs.appendFileSync( 'companys.json', data, function(err) {
-        if (err) {
-            console.log('company function:' + err.message);
-            return null;
-        }
-    });
-};
 var spider =function (url,i) {
     console.log("==========="+url+"=============");
     download(url,false, function (data) {
@@ -114,10 +105,7 @@ var spider =function (url,i) {
                 "_jobs": _jobs
             };
             fs.writeFile('./data/'+id+".json",'{ "'+id+'" :' +JSON.stringify(_company)+" }",function(err){
-                 if(err){
-                     console.log("==error====="+id);
-                     return null;
-                 }
+                 if(err) throw err;
            });
         }
     });
@@ -125,6 +113,7 @@ var spider =function (url,i) {
 fs.readFile('url.txt', function (err, data) {
     if (err) {
         console.log("==========error==========");
+        return null;
     }
     var urls = data.toString().trim().split('\n');
     for(var i=0;i<urls.length;i++){
