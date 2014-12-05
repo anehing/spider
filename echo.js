@@ -9,9 +9,12 @@ var fs		= require('fs');
  
 // Utility function that downloads a URL and invokes
 // callback with the data.
-function download(url, callback) {
+function download(url,file, callback) {
   http.get(url, function(res) {
     var data = "";
+    if(file){
+       res.setEncoding('binary');
+    }
     res.on('data', function (chunk) {
       data += chunk;
     });
@@ -24,7 +27,7 @@ function download(url, callback) {
 }
 
 var spider = function(url){
-	download(url,function(data){
+	download(url,false,function(data){
 		if(data){
 			var $ = cheerio.load(data);
 			$(".hc_list > li").each(function(i,e){
