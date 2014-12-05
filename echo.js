@@ -9,7 +9,7 @@ var fs		= require('fs');
  
 // Utility function that downloads a URL and invokes
 // callback with the data.
-function download(url,file, callback) {
+var download =function(url,file, callback) {
   http.get(url, function(res) {
     var data = "";
     if(file){
@@ -52,7 +52,7 @@ var spider = function(url){
 
 var address = "http://www.lagou.com/gongsi";
 //获取地址
-download(address, function(data) {
+download(address,false, function(data) {
   if (data) {
     var $ = cheerio.load(data);
     $("#box_expectCity > dl").each(function(i,e){
